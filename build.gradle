@@ -1,8 +1,20 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    }
 }
 
-group 'mvlasov'
+plugins {
+    id "java"
+    id "net.ltgt.apt-idea" version "0.18"
+    id "org.springframework.boot" version "2.0.5.RELEASE"
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+}
+
+group 'mvlasov-sandbox'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -11,6 +23,58 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    lombokVersion = "1.18.2"
+    postgresqlVersion = "42.2.3"
+    junitVersion = "5.3.1"
+    mybatisSpringBootVersion = "1.3.2"
+    gsonVersion = "2.8.5"
+    wiremockVersion = "2.18.0"
+    shazamcrestVersion = "0.11"
+    commonsNetVersion = "3.6"
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // Spring Boot configuration processor
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // Spring
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    // Apache for FTP
+    implementation "commons-net:commons-net:${commonsNetVersion}"
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-core"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+
+    // Gson
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    // Database support
+    implementation "org.postgresql:postgresql:${postgresqlVersion}"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootVersion}"
+    implementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
+
+    // Tests
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "junit", module: "junit"
+    }
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    implementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+
+    testImplementation "com.shazam:shazamcrest:${shazamcrestVersion}"
+
+    compile "com.google.guava:guava:23.5-jre"
+    compile "org.apache.poi:poi-ooxml:4.0.0"
+}
+
+test {
+    useJUnitPlatform()
 }
