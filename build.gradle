@@ -1,9 +1,27 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.0.RELEASE")
+    }
+}
+
 plugins {
-    id 'java'
+    id "java"
+    id "net.ltgt.apt" version "0.21"
+    id "org.springframework.boot" version "2.3.0.RELEASE"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
 group 'mvlasov'
 version '1.0-SNAPSHOT'
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 sourceCompatibility = 1.11
 
@@ -11,7 +29,44 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    lombokVersion = "1.18.8"
+    commonsIoVersion = "2.0.1"
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile "com.google.guava:guava:28.2-jre"
+    // SpringBoot
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    compile "commons-io:commons-io:${commonsIoVersion}"
+    compile group: 'org.springframework', name: 'spring-core', version: '5.3.3'
+
+    compile group: 'info.debatty', name: 'java-string-similarity', version: '2.0.0'
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-core"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+
+    // Test
+    implementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "junit", module: "junit"
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
+
+    implementation "org.junit.jupiter:junit-jupiter-api"
+    implementation "org.junit.jupiter:junit-jupiter-engine"
+    implementation "org.junit.jupiter:junit-jupiter-params"
+
+    // Jsoup
+    implementation "org.jsoup:jsoup:1.13.1"
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
 }
