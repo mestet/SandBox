@@ -1,37 +1,54 @@
+package diceroller;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
-class DiceRoller {
+class WarhammerDiceRoller {
 
     private static final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     private static final int rollAmount = 100000;
 
-    private static final int shootAmount = 20;
-    private static final int ap = 1;
+    private static final int shootAmount = 15;
+    private static final int ap = 0;
     private static final int dmg = 1;
 
     private static final int toHit = 3;
     private static final int toWound = 4;
-    private static final int save = 6;
+    private static final int save = 3;
 
-    private static final int targetWounds = 1;
+    private static final int targetWounds = 2;
+
+    private static final boolean isToHitReRoll = false;
+    private static final int toHitReRollOf = 1;
+
+    private static final boolean isToWoundReRoll = false;
+    private static final int toWoundReRollOf = 1;
 
 
-    public static void main(String[] args) {
+    public static void roll(String[] args) {
         List<Long> successHits = new ArrayList<>();
 
         List<Integer> toHitRoll = rollD6(shootAmount * rollAmount);
         log("rollResult", toHitRoll.toString());
+
+        if (isToHitReRoll) {
+            toHitRoll = reRollToHit(toHitRoll);
+        }
 
         long toHitResult = rollResult(toHitRoll, toHit);
         log("toHitResult", toHitResult);
 
         List<Integer> toWoundRoll = rollD6(toHitResult);
         log("toWoundRollResult", toWoundRoll);
+
+        if (isToWoundReRoll) {
+            toWoundRoll = reRollToWound(toWoundRoll);
+        }
 
         long toWoundResult = rollResult(toWoundRoll, toWound);
         log("toWoundResult", toWoundResult);
@@ -56,6 +73,20 @@ class DiceRoller {
                 .divide(BigDecimal.valueOf(rollAmount), 2, RoundingMode.HALF_UP);
         log("Average success hit amount", averageHits);
         log("Average slain models", averageSlainModels);
+    }
+
+    private static List<Integer> reRollToHit(List<Integer> toHitRoll) {
+        return reRoll(toHitRoll, WarhammerDiceRoller.toHitReRollOf);
+    }
+
+    private static List<Integer> reRollToWound(List<Integer> toWoundRoll) {
+        return reRoll(toWoundRoll, WarhammerDiceRoller.toWoundReRollOf);
+    }
+
+    private static List<Integer> reRoll(List<Integer> roll, int reRollOf) {
+        return roll.stream()
+                .map(dice -> dice <= reRollOf ? rollD6() : dice)
+                .collect(Collectors.toList());
     }
 
     public static Integer allocateWounds(long toWoundResult, long saveResult) {
