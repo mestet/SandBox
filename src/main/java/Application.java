@@ -1,11 +1,13 @@
-import java.util.List;
+import ngram.StringSimilarity;
 
+
+/**
+ * Class to run stuff
+ */
 public class Application {
 
     public static void main(String[] args) {
-
-        List<String> generatedPans =  LuhnGenerator.Generate16Pan("220220");
-        System.out.println("Stop generating");
-
+        StringSimilarity.run(args);
     }
+
 }
