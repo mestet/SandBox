@@ -1,33 +1,9 @@
 package codility;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Solution {
-
-    public int getBinaryGap(int N) {
-        if (N < 5) {
-            return 0;
-        }
-        char[] binary = Integer.toBinaryString(N).toCharArray();
-
-        System.out.println("Char arr is " + Arrays.toString(binary));
-
-        int candidate = 0;
-        for (int i = 0; i < binary.length - 1; i++) {
-            int count = 0;
-            if (binary[i] == '1' && binary[i + 1] == '0') {
-                int x = i + 1;
-                while (binary[x] == '0') {
-                    count++;
-                    x++;
-                    if (x >= binary.length) return candidate;
-                }
-                i = x - 1;
-                if (count > candidate) candidate = count;
-            }
-        }
-        return candidate;
-    }
 
     public int[] cyclicRotation(int[] A, int K) {
         int len = A.length;
@@ -84,11 +60,13 @@ public class Solution {
         return f == c ? 1 : 0;
     }
 
-    public int frogRiverOne(int X, int[] A){
-
-
-        return 0;
-    }
+//    public int frogRiverOne(int X, int[] A){
+//
+//        Map<String, Properties> nextMap = new HashMap() {{
+//            putAll(key, nextValue);
+//        }};
+//        return 0;
+//    }
 
 
 }
