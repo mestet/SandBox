@@ -1,7 +1,5 @@
 package yandex;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -41,21 +39,21 @@ public class FilterArray {
     public static void main(String[] args) {
         List<TestCase> testCaseList = Arrays.asList(
                 new TestCase(
-                        new int[] {20,37,20,21},
+                        new int[]{20, 37, 20, 21},
                         1,
-                        new int[] {20,37,21}),
+                        new int[]{20, 37, 21}),
                 new TestCase(
-                        new int[] {1,2,3,1,2,1,2,3},
+                        new int[]{1, 2, 3, 1, 2, 1, 2, 3},
                         2,
-                        new int[] {1,2,3,1,2,3}),
+                        new int[]{1, 2, 3, 1, 2, 3}),
                 new TestCase(
-                        new int[] {2,2,2,1,2,1,2,1},
+                        new int[]{2, 2, 2, 1, 2, 1, 2, 1},
                         4,
-                        new int[] {2,2,2,1,2,1,1})
+                        new int[]{2, 2, 2, 1, 2, 1, 1})
         );
         FilterArray fa = new FilterArray();
 
-        for (TestCase cs: testCaseList) {
+        for (TestCase cs : testCaseList) {
             int[] result = fa.removeUnnecessaryDupes(cs.intArray, cs.n);
             boolean pass = Arrays.equals(result, cs.expected);
             Assert.isTrue(pass, "Arrays aren't equal");
@@ -70,13 +68,8 @@ public class FilterArray {
         HashMap<Integer, Integer> map = new HashMap<>();
 
         ArrayList<Integer> result = new ArrayList<>();
-
         for (int el : data) {
-            if (map.containsKey(el)) {
-                map.put(el, map.get(el) + 1);
-            } else {
-                map.put(el, 1);
-            }
+            map.merge(el, 1, Integer::sum);
             if (map.get(el) <= n) {
                 result.add(el);
             }
