@@ -1,7 +1,5 @@
 package yandex;
 
-import org.springframework.util.Assert;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +15,7 @@ import java.util.List;
  * {20,37,20,21}, 1 -> {20,37,21}
  * {1,2,3,1,2,1,2,3}, 2 -> {1,2,3,1,2,3}
  * <p>
- * public int[]removeUnnecessaryDupes(int[]data,int n){
+ * public int[] removeUnnecessaryDupes(int[] data, int n){
  * <p>
  * }
  */
@@ -56,10 +54,11 @@ public class FilterArray {
         for (TestCase cs : testCaseList) {
             int[] result = fa.removeUnnecessaryDupes(cs.intArray, cs.n);
             boolean pass = Arrays.equals(result, cs.expected);
-            Assert.isTrue(pass, "Arrays aren't equal");
-            System.out.println("Test passed for: "
+            String checkWord = pass ? "passed" : "failed";
+
+            System.out.println("Test " + checkWord + " for: "
                     + Arrays.toString(cs.intArray)
-                    + "\t"
+                    + "\t -> \t"
                     + Arrays.toString(cs.expected));
         }
     }

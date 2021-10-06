@@ -8,3 +8,9 @@
 
 # Local application.yml
 /src/main/resources/config
+
+# gradle
+/gradle/wrapper/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.properties
+/gradlew
+/gradlew.bat
