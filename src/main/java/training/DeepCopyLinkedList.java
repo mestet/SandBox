@@ -12,20 +12,14 @@ public class DeepCopyLinkedList {
         DeepCopyLinkedList instance = new DeepCopyLinkedList();
         Node head = instance.generate(13);
         instance.printAllNodes(head);
-        Node copy = instance.copy(head);
         System.out.println("=====================================");
+        Node copy = instance.copy(head);
         instance.printAllNodes(copy);
-
         Node copyInPlace = instance.copyInPlace(head);
         instance.printAllNodes(copyInPlace);
-    }
+        System.out.println("=====================================");
+        instance.printAllNodes(head);
 
-    @AllArgsConstructor
-    static class NodeContainer {
-        Node original;
-        Node next;
-        Node copy;
-        Node random;
     }
 
     static class Node {
@@ -129,6 +123,6 @@ public class DeepCopyLinkedList {
             sj.add(curr.val + "(" + randomValue + ")");
             curr = curr.next;
         }
-        System.out.println(sj.toString());
+        System.out.println(sj);
     }
 }
