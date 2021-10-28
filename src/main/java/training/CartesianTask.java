@@ -8,7 +8,6 @@ public class CartesianTask {
     public static void main(String[] args) {
 
         new CartesianTask().printAllPermutations("abcd");
-        new CartesianTask().printAllPermutations("aaa");
 
     }
 
@@ -38,6 +37,8 @@ public class CartesianTask {
      */
     private <T> List<List<T>> cartesian(List<T> inputList) {
         int ln = inputList.size();
+
+        if (ln < 2) return Collections.singletonList(inputList);
 
         List<List<T>> result = new ArrayList<>();
         if (ln > 2) {
