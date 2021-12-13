@@ -1,4 +1,4 @@
-package yandex;
+package interview;
 
 import java.util.ArrayList;
 import java.util.Arrays;

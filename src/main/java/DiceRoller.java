@@ -8,7 +8,7 @@ class DiceRoller {
 
     private static final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    private static final int rollAmount = 100000;
+    private static final int rollAmount = 40000;
 
     private static final int shootAmount = 20;
     private static final int ap = 1;

@@ -1,7 +1,4 @@
-package yandex;
-
-import java.util.HashSet;
-import java.util.Set;
+package interview;
 
 /**
  * Парсер номера телефона
